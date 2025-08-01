@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Like Me?</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .question {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .btn-yes {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+        
+        .btn-yes:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        .btn-no {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            position: relative;
+        }
+        
+        .btn-no:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(116, 185, 255, 0.4);
+        }
+        
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 20px;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .response {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            min-height: 30px;
+        }
+        
+        .happy {
+            color: #00b894;
+            animation: bounce 0.5s ease;
+        }
+        
+        .sad {
+            color: #e17055;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .emoji {
+            font-size: 50px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question">Do you like me? 💕</div>
+        <div class="emoji" id="emoji">🤔</div>
+        <div class="buttons">
+            <button class="btn btn-yes" onclick="handleYes()">Yes! 😍</button>
+            <button class="btn btn-no" onclick="handleNo()" id="noBtn">No 😔</button>
+        </div>
+        <div class="response" id="response"></div>
+        <div class="hearts" id="hearts"></div>
+    </div>
+
+    <script>
+        let noClickCount = 0;
+        const noBtn = document.getElementById('noBtn');
+        const noResponses = [
+            "Are you sure? 🥺",
+            "Think again! 💭",
+            "Really? 😢",
+            "Please reconsider! 🙏",
+            "I'm getting sad... 😭",
+            "Last chance! 💔"
+        ];
+
+        function handleYes() {
+            document.getElementById('response').innerHTML = '<span class="happy">Yay! I like you too! 🎉</span>';
+            document.getElementById('emoji').textContent = '😍';
+            createHearts();
+            
+            // Disable buttons
+            document.querySelector('.btn-yes').disabled = true;
+            document.querySelector('.btn-no').disabled = true;
+            
+            // Play celebration
+            setTimeout(() => {
+                document.querySelector('.container').style.background = 'linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)';
+            }, 500);
+        }
+
+        function handleNo() {
+            if (noClickCount < noResponses.length) {
+                document.getElementById('response').innerHTML = `<span class="sad">${noResponses[noClickCount]}</span>`;
+                document.getElementById('emoji').textContent = '😢';
+                noClickCount++;
+                
+                // Make the "No" button move around
+                moveNoButton();
+            } else {
+                // After many "No" clicks, force a positive response
+                document.getElementById('response').innerHTML = '<span class="happy">You clicked "No" so many times, you must secretly like me! 😄</span>';
+                document.getElementById('emoji').textContent = '😏';
+                createHearts();
+            }
+        }
+
+        function moveNoButton() {
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            
+            // Random position within container
+            const maxX = containerRect.width - noBtn.offsetWidth - 40;
+            const maxY = containerRect.height - noBtn.offsetHeight - 40;
+            
+            const randomX = Math.random() * Math.max(maxX, 0);
+            const randomY = Math.random() * Math.max(maxY, 0);
+            
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.textContent = ['💖', '💕', '💗', '💓', '❤️'][Math.floor(Math.random() * 5)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 2 + 's';
+                    heartsContainer.appendChild(heart);
+                    
+                    // Remove heart after animation
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 3000);
+                }, i * 100);
+            }
+        }
+
+        // Add some sparkle on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.question').style.color = '#e17055';
+                setTimeout(() => {
+                    document.querySelector('.question').style.color = '#333';
+                }, 500);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
