@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Do You Like Me?</title>
+    <title>Do You Like Nichole?</title>
     <style>
         body {
             font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -130,16 +130,55 @@
         .emoji {
             font-size: 50px;
             margin: 20px 0;
-        }
+        }.reason-input {
+    margin-top: 20px;
+    display: none;
+}
+
+.reason-input textarea {
+    width: 100%;
+    height: 80px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 14px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.reason-input textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.submit-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}        
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="question">Do you like me? 💕</div>
+        <div class="question">Do you like Nichole? (like "Like"🫣)</div>
         <div class="emoji" id="emoji">🤔</div>
         <div class="buttons">
-            <button class="btn btn-yes" onclick="handleYes()">Yes! 😍</button>
-            <button class="btn btn-no" onclick="handleNo()" id="noBtn">No 😔</button>
+            <button class="btn btn-yes" onclick="handleYes()">Yea, but why asking?🤔</button>
+            <button class="btn btn-no" onclick="handleNo()" id="noBtn">No...just pretending😔</button>
         </div>
         <div class="response" id="response"></div>
         <div class="hearts" id="hearts"></div>
@@ -149,17 +188,14 @@
         let noClickCount = 0;
         const noBtn = document.getElementById('noBtn');
         const noResponses = [
-            "Are you sure? 🥺",
-            "Think again! 💭",
-            "Really? 😢",
-            "Please reconsider! 🙏",
-            "I'm getting sad... 😭",
-            "Last chance! 💔"
+            "Really...? 🥺",
+            "okay...alright😢",
+            "Thank you for being honest..💔 Could you leave me a reason?"
         ];
 
         function handleYes() {
-            document.getElementById('response').innerHTML = '<span class="happy">Yay! I like you too! 🎉</span>';
-            document.getElementById('emoji').textContent = '😍';
+            document.getElementById('response').innerHTML = '<span class="happy">Yay! okay! Thank you for answering🥰</span>';
+            document.getElementById('emoji').textContent = '🤝';
             createHearts();
             
             // Disable buttons
@@ -181,10 +217,12 @@
                 // Make the "No" button move around
                 moveNoButton();
             } else {
-                // After many "No" clicks, force a positive response
-                document.getElementById('response').innerHTML = '<span class="happy">You clicked "No" so many times, you must secretly like me! 😄</span>';
-                document.getElementById('emoji').textContent = '😏';
-                createHearts();
+         <div class="reason-input" id="reasonInput">
+         <textarea id="reasonText" placeholder="Tell me why...🥺"></textarea>
+        <a href="https://www.youtube.com/watch?v=JdnnTj6X-Ko" target="_blank">Tell me why (New Tab)</a>
+         <br>
+        <button class="submit-btn" onclick="submitReason()">Submit Reason</button>
+        </div>
             }
         }
 
