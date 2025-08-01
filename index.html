@@ -213,14 +213,11 @@
         let noClickCount = 0;
         const noBtn = document.getElementById('noBtn');
         const noResponses = [
-            "Really...? 🥺",
-            "okay...alright😢",
-            "Thank you for being honest..💔 Could you leave me a reason?"
+            "okay...alright, Thank you for being honest😢...Could you leave me a reason?"
         ];
 
         function handleYes() {
             document.getElementById('response').innerHTML = '<span class="happy">Yay! okay! Thank you for answering🥰</span>';
-            document.getElementById('emoji').textContent = '🤝';
             createHearts();
             
             // Disable buttons
