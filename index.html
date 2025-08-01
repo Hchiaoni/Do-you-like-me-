@@ -175,7 +175,6 @@
 <body>
     <div class="container">
         <div class="question">Do you like Nichole? (like "Like"🫣)</div>
-        <div class="emoji" id="emoji">🤔</div>
         <div class="buttons">
             <button class="btn btn-yes" onclick="handleYes()">Yea, but why asking?🤔</button>
             <button class="btn btn-no" onclick="handleNo()" id="noBtn">No...just pretending😔</button>
@@ -218,7 +217,14 @@
                 moveNoButton();
             } else {
          <div class="reason-input" id="reasonInput">
-         <textarea id="reasonText" placeholder="Tell me why...🥺"></textarea>
+        <form id="reasonForm" action="https://formspree.io/f/xkgzobva" method="POST">
+        <textarea id="reasonText" name="reason" placeholder="Please tell me why you don't like me... 🥺" required></textarea>
+        <input type="hidden" name="_subject" value="He doesn't like you - Here's why">
+        <input type="hidden" name="_next" value="javascript:void(0)">
+        <br>
+        <button type="submit" class="submit-btn">Submit Reason</button>
+    </form>
+</div>
         <a href="https://www.youtube.com/watch?v=JdnnTj6X-Ko" target="_blank">Tell me why (New Tab)</a>
          <br>
         <button class="submit-btn" onclick="submitReason()">Submit Reason</button>
